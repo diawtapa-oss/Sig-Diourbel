@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Générateur d'icônes PWA</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; background-color: #f0f0f0; }
+        h1 { color: #333; }
+        button { 
+            padding: 15px 30px; 
+            font-size: 18px; 
+            margin: 10px; 
+            cursor: pointer; 
+            background: #2c3e50; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        button:hover { background: #34495e; }
+    </style>
+</head>
+<body>
+    <h1>Générateur d'icônes pour SIG Diourbel</h1>
+    <p>Cliquez sur les boutons ci-dessous pour générer et télécharger les icônes manquantes.</p>
+    <p>Ensuite, créez un dossier nommé <strong>images</strong> à la racine de votre site et placez-y ces fichiers.</p>
+    
+    <canvas id="canvas" style="display:none;"></canvas>
+    
+    <button onclick="downloadIcon(192)">Générer icon-192.png</button>
+    <button onclick="downloadIcon(512)">Générer icon-512.png</button>
+
+    <script>
+        function downloadIcon(size) {
+            var canvas = document.getElementById('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            var ctx = canvas.getContext('2d');
+
+            // Fond
+            ctx.fillStyle = '#2c3e50';
+            ctx.fillRect(0, 0, size, size);
+
+            // Texte (SIG)
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold ' + (size/3) + 'px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('SIG', size/2, size/2);
+            
+            // Bordure
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = size/20;
+            ctx.strokeRect(0, 0, size, size);
+
+            // Téléchargement
+            var link = document.createElement('a');
+            link.download = 'icon-' + size + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+</html>
